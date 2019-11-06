@@ -1,0 +1,30 @@
+{% extends 'app_blog/base.html' %}
+{% block topo %}
+<div class="header clearfix  col-md-6 offset-md-3">
+  <nav>
+    <ul class="nav nav-pills float-right">
+      <li class="nav-item">
+        <a class="nav-link" href="/publicar">Publicar</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Sair</a>
+      </li>
+    </ul>
+  </nav>
+  <h3 class="text-muted">{{ user.username }}</h3>
+</div>
+{% endblock %}
+{% block conteudo %}
+  <div class="container">
+    <ul class="timeline">
+      {% for publicacao in publicacoes %}
+				<li>
+  					<a href="#">@{{ publicacao.autor }}</a>
+  					<a class="float-right">{{ publicacao.data }}</a>
+  					<p>{{ publicacao.texto }}</p>
+                    <a class="nav-link" href="/comentario">Comentar</a>
+				</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}
