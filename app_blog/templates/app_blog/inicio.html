@@ -1,4 +1,5 @@
 {% extends 'app_blog/base.html' %}
+
 {% block topo %}
 <div class="header clearfix  col-md-6 offset-md-3">
   <nav>
@@ -14,6 +15,17 @@
   <h3 class="text-muted">{{ user.username }}</h3>
 </div>
 {% endblock %}
+
+{% block publicando %}
+  <div class="container">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input class="btn btn-primary" type="submit" value="Publicar">
+    </form>
+  </div>
+{% endblock %}
+
 {% block conteudo %}
   <div class="container">
     <ul class="timeline">
@@ -21,9 +33,12 @@
 				<li>
   					<a href="#">@{{ publicacao.autor }}</a>
   					<a class="float-right">{{ publicacao.data }}</a>
-  					<p>{{ publicacao.texto }}</p>
-                    <a class="nav-link" href="/comentario">Comentar</a>
-				</li>
+  					<p>{{ publicacao.texto }}</p><br>
+
+                    <a href="/comentario"><button type="submit" class="btn btn-primary">Comentar</button></a>
+                    <a href="/detalhe"><button type="submit" class="btn btn-primary">Detalhe</button></a>
+
+				</li><br><br>
       {% endfor %}
     </ul>
   </div>

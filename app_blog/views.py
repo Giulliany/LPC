@@ -8,14 +8,15 @@ from django.http import HttpResponse
 def inicio(request):
     pessoa = Pessoa.objects.get(usuario=request.user)
     seguidores = pessoa.seguidores.all()
-    publicacoes = Publicacao.objects.filter(autor__in=seguidores)
+    publicacoes = Publicacao.objects.filter(autor__in=seguidores).order_by('-id')[0:30]
 
     return render(request, 'app_blog/inicio.html', {'publicacoes': publicacoes})
 
 def perfil(request, nome):
     try:
         pessoa = Pessoa.objects.get(usuario__username=nome)
-        publicacoes = Publicacao.objects.filter(autor=pessoa)
+        publicacoes = Publicacao.objects.filter(autor=pessoa).order_by('-id')[0:30]
+
     except Exception as identifier:
         return HttpResponse('Objeto Não encontrado')
 
@@ -49,8 +50,8 @@ class PublicacaoView(FormView):
 def seguir(request, id_pessoa):
     try:
         pessoa = Pessoa.objects.get(usuario=request.user)
-        seguir_pessoa = pessoa.objects.get(pk=id_pessoa)
-        pessoa.seguidores.add(seguir_pessoa)
+        seguir_pessoa = Pessoa.objects.get(pk=id_pessoa)
+        Pessoa.seguidores.add(seguir_pessoa)
 
     except Exception as identifier:
         return HttpResponse('Objeto Não encontrado')
