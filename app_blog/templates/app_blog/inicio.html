@@ -12,11 +12,14 @@
       </li>
     </ul>
   </nav>
-  <h3 class="text-muted">{{ user.username }}</h3>
+  {% if user.is_authenticated %}
+  <h3 class="text-muted">Olá, {{ user.username }}!</h3>
+  {% endif %}
 </div>
 {% endblock %}
 
 {% block publicando %}
+<div class="header clearfix">
   <div class="container">
     <form method="post">
       {% csrf_token %}
@@ -24,21 +27,23 @@
       <input class="btn btn-primary" type="submit" value="Publicar">
     </form>
   </div>
+  </div>
 {% endblock %}
 
 {% block conteudo %}
   <div class="container">
     <ul class="timeline">
       {% for publicacao in publicacoes %}
+
 				<li>
+
   					<a href="#">@{{ publicacao.autor }}</a>
   					<a class="float-right">{{ publicacao.data }}</a>
   					<p>{{ publicacao.texto }}</p><br>
 
-                    <a href="/comentario"><button type="submit" class="btn btn-primary">Comentar</button></a>
-                    <a href="/detalhe"><button type="submit" class="btn btn-primary">Detalhe</button></a>
+                    <a href="/pub/{{ publicacao.id }}"><button type="submit" class="btn btn-primary">Detalhe</button></a>
 
-				</li><br><br>
+				</li>
       {% endfor %}
     </ul>
   </div>

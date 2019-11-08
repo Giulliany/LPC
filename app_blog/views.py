@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import TemplateView, FormView
 from .models import *
-from .forms import PublicacaoForm
+from .forms import PublicacaoForm, CommentForm
 from django.http import HttpResponse
 
 def inicio(request):
@@ -21,8 +21,10 @@ def perfil(request, nome):
         return HttpResponse('Objeto Não encontrado')
 
     return render(request, 'app_blog/perfil.html', {'publicacoes': publicacoes, 'pessoa': pessoa})
+
 def comentario(request):
     return render(request, 'app_blog/comentario.html')
+
 def DetalhePub(request, id_publicacao):
     try:
         pub = Publicacao.objects.get(pk=id_publicacao)
@@ -47,16 +49,29 @@ class PublicacaoView(FormView):
     def get_success_url(self):
         return reverse('inicio')
 
-def seguir(request, id_pessoa):
-    try:
-        pessoa = Pessoa.objects.get(usuario=request.user)
-        seguir_pessoa = Pessoa.objects.get(pk=id_pessoa)
-        Pessoa.seguidores.add(seguir_pessoa)
-
-    except Exception as identifier:
-        return HttpResponse('Objeto Não encontrado')
-
-    return render(request, 'rede/sucesso_seguir.html', {'famosinho': cara_quero_seguir})
-
 class HomePageView(TemplateView):
     template_name = 'app_blog/home.html'
+
+
+def pubs_detail(request, public_id):
+    try:
+        pub = Publicacao.objects.get(pk = public_id)
+        comentarios = Comentario.objects.all()
+        coments = comentarios.filter(publicacao=pub)
+        if request.method == 'POST':
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                print("val")
+                form = form.save()
+                form.refresh_from_db()
+                form.publicacao = pub
+                form.autor_comment = request.user
+                form.save()
+                return HttpResponseRedirect("/")
+        else:
+            form = CommentForm()
+
+    except Publicacao.DoesNotExist:
+        raise Http404('Publicação não encontrada')
+
+    return render(request, 'app_blog/detalhe.html', {'pub':pub,'coments':coments,'form':form,})

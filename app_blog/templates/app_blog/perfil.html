@@ -8,24 +8,35 @@
         <a class="nav-link" href="/publicar">Publicar</a>
       </li>
       <li class="nav-item">
+            <a class="nav-link" href="#">Seguir</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="#">Sair</a>
       </li>
     </ul>
   </nav>
-   <h3 class="text-muted"> {{ pessoa.nome }}</h3>
+  {% if user.is_authenticated %}
+      <h3 class="text-muted">Olá, {{ user.username }}!</h3>
+      {% else %}
+      <h3 class="text-muted" > Olá, visitante!</h3>
+  {% endif %}
+
 </div>
 {% endblock %}
 
 {% block conteudo %}
   <div class="container">
     <ul class="timeline">
+
+      <h3 class="text-muted"> {{ pessoa.nome }}</h3><br>
+
       {% for publicacao in publicacoes %}
   					<a href="#">@{{ publicacao.autor }}</a>
   					<a class="float-right">{{ publicacao.data }}</a>
   					<p>{{ publicacao.texto }}</p><br>
 
-                    <a href="/comentario"><button type="submit" class="btn btn-primary">Comentar</button></a>
-                    <a href="/detalhe"><button type="submit" class="btn btn-primary">Detalhe</button></a>
+
+                    <a href="/pub/{{ publicacao.id }}"><button type="submit" class="btn btn-primary">Detalhe</button></a>
 
 				</li><br><br>
 

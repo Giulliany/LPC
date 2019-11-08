@@ -1,18 +1,36 @@
-<link href="https://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link href="estilo.css" rel="stylesheet">
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <title>FC Solutions</title>
+  </head>
 
+<body>
 <div class="container">
-  {% block topo %}
-  {% endblock %}
-    <div class="container mt-5 mb-5">
-    	<div class="row">
-    		<div class="col-md-6 offset-md-3">
-    			{% block conteudo %}
-                {% endblock %}
-    		</div>
-    	</div>
+ <nav class="navbar fixed-top navbar-light bg-light">
+  <a class="navbar-brand" href="#"></a>
+    {% block topo %}
+    {% endblock %}
+ </nav>
+</div>
+
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            {% block conteudo %}
+            {% endblock %}
+        </div>
     </div>
-    <footer class="footer col-md-6 offset-md-3">
-      <p>&copy; GV Solutions </p>
-    </footer>
-<div>
+</div>
+
+<footer id="sticky-footer" class="navbar fixed-bottom navbar-light bg-light">
+    <div class="container text-center">
+        <div class="copyright">
+            <p>&copy; GV Solutions 2019</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
